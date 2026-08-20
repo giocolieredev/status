@@ -1,0 +1,64 @@
+{
+  "name": "crii.me",
+  "url": "https://crii.me",
+  "status": "operational",
+  "lastUpdated": "2026-08-20T22:00:00Z",
+  "services": [
+    {
+      "name": "Website",
+      "slug": "website",
+      "url": "https://crii.me",
+      "status": "operational",
+      "description": "Main website and portfolio"
+    },
+    {
+      "name": "Blog",
+      "slug": "blog",
+      "url": "https://blog.crii.me",
+      "status": "operational",
+      "description": "Jekyll blog with articles"
+    },
+    {
+      "name": "CDN",
+      "slug": "cdn",
+      "url": "https://cdn.crii.me",
+      "status": "operational",
+      "description": "Static file delivery"
+    },
+    {
+      "name": "API",
+      "slug": "api",
+      "url": null,
+      "status": "maintenance",
+      "description": "Coming soon"
+    }
+  ],
+  "uptime": {
+    "website": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    "blog": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    "cdn": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+  },
+  "incidents": [
+    {
+      "id": "inc-2026-08-20-001",
+      "title": "Initial setup complete",
+      "status": "resolved",
+      "severity": "none",
+      "created": "2026-08-20T20:00:00Z",
+      "resolved": "2026-08-20T20:30:00Z",
+      "services": ["website", "blog", "cdn"],
+      "updates": [
+        {
+          "time": "2026-08-20T20:00:00Z",
+          "status": "investigating",
+          "message": "Setting up infrastructure for crii.me ecosystem."
+        },
+        {
+          "time": "2026-08-20T20:30:00Z",
+          "status": "resolved",
+          "message": "All systems operational. Website, blog, and CDN are live."
+        }
+      ]
+    }
+  ]
+}
