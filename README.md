@@ -1,29 +1,27 @@
 # status.crii.me — System Status
 
 A professional status page for the crii.me ecosystem.  
-Shows live status, uptime bars, and incident history.
+**Fully automatic** — a GitHub Action checks every service every 10 minutes
+and updates `status.json` for you. No manual editing needed.
 
 ## How it works
 
-The page loads `status.json` from this repo via GitHub's raw content URL.
-Edit `status.json`, commit, push — the status page updates automatically.
+1. **GitHub Action** (`.github/workflows/monitor.yml`) runs every 10 minutes
+   on a free GitHub-hosted runner (free for public repos).
+2. **`monitor.py`** checks each service's URL over HTTPS (HEAD request,
+   15s timeout) and writes the results to `status.json`:
+   - `2xx/3xx` → operational
+   - `4xx` → degraded
+   - `5xx` / timeout / connection error → outage
+   - Uptime history keeps the last 24 samples
+3. The action commits and pushes the updated `status.json`.
+4. The status page (client-side) loads `status.json` and refreshes every 5 min.
 
-## Updating status
+## Manual override
 
-### Change a service status
-
-Edit `status.json` → `services` array:
-
-```json
-{
-  "name": "Website",
-  "slug": "website",
-  "status": "degraded",
-  "description": "Main website and portfolio"
-}
-```
-
-Valid statuses: `operational`, `degraded`, `outage`, `maintenance`
+You can still edit `status.json` by hand if you want to add incidents or
+override a status — the next automated run will only change what the checks
+say, so incidents you add manually stay.
 
 ### Report an incident
 
@@ -50,24 +48,14 @@ Add to the `incidents` array:
 
 Incident statuses: `investigating`, `identified`, `monitoring`, `resolved`, `postmortem`
 
-### Update uptime bars
+## Running checks manually
 
-The `uptime` object contains 24-element arrays (one per hour, 24h ago → now):
-- `1` = operational
-- `0` = down
-- `0.5` = degraded
-- `2` = maintenance
+From the repo's **Actions** tab → *Monitor services* → **Run workflow**.
 
-Example: `[1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]` = 2h downtime
-
-### Quick commands
+Or locally:
 
 ```bash
-# Edit and push
-vim status.json
-git add status.json
-git commit -m "Update: website degraded"
-git push
+python3 monitor.py   # or: py monitor.py on Windows
 ```
 
 ## Auto-refresh
@@ -86,11 +74,14 @@ Value: giocolieredev.github.io
 
 ```
 status/
-├── index.html    ← Status page (fetches status.json)
-├── status.json   ← Edit this to update status
-├── CNAME         ← status.crii.me
-└── .nojekyll     ← Static serving
+├── index.html              ← Status page (fetches status.json)
+├── status.json             ← Updated automatically by the Action
+├── monitor.py              ← Health-check script
+├── .github/workflows/
+│   └── monitor.yml         ← Runs every 10 min, commits results
+├── CNAME                   ← status.crii.me
+└── .nojekyll               ← Static serving
 ```
 
-The page is fully client-side — it fetches `status.json` from GitHub's raw
-content API on load. No server needed.
+The page is fully client-side — no server needed. All monitoring runs on
+GitHub's free public-repo Actions minutes.
