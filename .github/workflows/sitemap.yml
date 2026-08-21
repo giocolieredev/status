@@ -1,0 +1,47 @@
+name: Update sitemap
+
+on:
+  push:
+    branches: [main]
+    # Only re-run when the site's pages or the generator itself change.
+    # The bot's own sitemap.xml commits don't match these paths, so there
+    # is no loop.
+    paths:
+      - '*.html'
+      - 'sitemap.js'
+      - '.github/workflows/sitemap.yml'
+  schedule:
+    # Daily safety net (e.g. if a page was edited through the GitHub UI)
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sitemap
+  cancel-in-progress: false
+
+jobs:
+  sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history so per-file lastmod dates work
+
+      - name: Generate sitemap
+        run: node sitemap.js
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "crii.me sitemap bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sitemap.xml
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: auto-update sitemap ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+            git push
+          else
+            echo "Sitemap unchanged"
+          fi

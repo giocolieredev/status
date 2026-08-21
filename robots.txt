@@ -1,2 +1,5 @@
 User-agent: *
 Allow: /
+
+# ── Sitemaps ──────────────────────────────
+Sitemap: https://status.crii.me/sitemap.xml
