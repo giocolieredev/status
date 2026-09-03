@@ -2,7 +2,7 @@
   "name": "crii.me",
   "url": "https://crii.me",
   "status": "operational",
-  "lastUpdated": "2026-09-03T17:02:50Z",
+  "lastUpdated": "2026-09-03T19:44:30Z",
   "services": [
     {
       "name": "Website",
@@ -10,7 +10,7 @@
       "url": "https://crii.me",
       "status": "operational",
       "description": "Main website and portfolio",
-      "lastChecked": "2026-09-03T17:02:50Z"
+      "lastChecked": "2026-09-03T19:44:30Z"
     },
     {
       "name": "Blog",
@@ -18,7 +18,7 @@
       "url": "https://blog.crii.me",
       "status": "operational",
       "description": "Jekyll blog with articles",
-      "lastChecked": "2026-09-03T17:02:50Z"
+      "lastChecked": "2026-09-03T19:44:30Z"
     },
     {
       "name": "CDN",
@@ -26,7 +26,7 @@
       "url": "https://cdn.crii.me",
       "status": "operational",
       "description": "Static file delivery",
-      "lastChecked": "2026-09-03T17:02:50Z"
+      "lastChecked": "2026-09-03T19:44:30Z"
     },
     {
       "name": "API",
